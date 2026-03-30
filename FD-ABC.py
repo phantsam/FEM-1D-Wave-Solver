@@ -57,18 +57,13 @@ def update(frame):
 
     t = frame * dt
 
-    # Velocity update
-    for i in range(1, nx - 1):
-        v[i] = (
-            v_old[i]
-            + (dt / rho) * (sigma[i] - sigma[i - 1]) / dx
-        )
-        v[i] *= np.exp(-damping[i] * dt)
+    # Velocity update (vectorized)
+    v[1:-1] = v_old[1:-1] + (dt / rho) * (sigma[1:] - sigma[:-1]) / dx
+    v[1:-1] *= np.exp(-damping[1:-1] * dt)
 
-    # Stress update
-    for i in range(nx - 1):
-        sigma[i] += dt * mu * (v[i + 1] - v[i]) / dx
-        sigma[i] *= np.exp(-damping[i] * dt)
+    # Stress update (vectorized)
+    sigma += dt * mu * (v[1:] - v[:-1]) / dx
+    sigma *= np.exp(-damping[:nx-1] * dt)
 
     # Ricker stress source
     sigma[src_i] = ricker(t - t0, f0)
