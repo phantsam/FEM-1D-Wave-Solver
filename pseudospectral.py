@@ -19,7 +19,7 @@ time = np.arange(nt) * dt
 f0 = 25.0
 t0 = 1.5 / f0
 
-def ricker(t):
+def ricker(t, f0, t0):
     a = np.pi * f0 * (t - t0)
     return (1 - 2*a**2) * np.exp(-a**2)
 
