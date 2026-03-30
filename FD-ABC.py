@@ -78,6 +78,5 @@ def update(frame):
 
 ani = FuncAnimation(fig, update, frames=nt, interval=20)
 plt.tight_layout()
-plt.show()
-
 plt.savefig("1D_elastic_wave_ricker_absorbing.png")
+plt.show()
